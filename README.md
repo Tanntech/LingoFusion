@@ -1,2 +1,2 @@
-# LingoFusion-mainp
- ds
+# LingoFusion
+ Transcribe english video
