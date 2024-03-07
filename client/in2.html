@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Transcription</title>
+</head>
+<body>
+    <input type="file" id="audioFileInput">
+    <button onclick="transcribeAudio()">Transcribe</button>
+    <div id="transcriptionResult">TRANSCRIPTION:</div>
+
+    <script>
+        async function transcribeAudio() {
+            const audioFile = document.getElementById('audioFileInput').files[0];
+            
+            if (!audioFile) {
+                alert('Please select a file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('audioFile', audioFile);
+
+            try {
+                const response = await fetch('http://localhost:3000/transcribe', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'text/plain' // Expecting plain text response
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const transcriptionText = await response.text();
+                document.getElementById('transcriptionResult').innerText = transcriptionText;
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('transcriptionResult').innerText = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Transcription</title>
+</head>
+
+<!-- 2fcKhU1_hdc -->
+<!-- 980da6e1fc8b36201d08e762b537b863bd914337 -->
+<body>
+  <h1>YouTube Transcription</h1>
+  <label for="youtubeLink">YouTube Link:</label>
+  <input type="text" id="youtubeLink" name="youtubeLink" placeholder="Enter YouTube link">
+  <button onclick="transcribe()">Transcribe</button>
+  <div id="transcriptionResult"></div>
+
+  <script>
+    async function transcribe() {
+      const youtubeLink = document.getElementById('youtubeLink').value;
+
+      const response = await fetch('http://localhost:3000/transcribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ youtubeLink: youtubeLink })
+      });
+
+      const data = await response.text();
+      document.getElementById('transcriptionResult').innerText = data;
+    }
+  </script>
+</body>
+</html>
